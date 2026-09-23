@@ -1,29 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">Daftar Mahasiswa</h1>
+        <a href="{{ route('user.create') }}" class="btn btn-primary">+ Tambah Mahasiswa</a>
+    </div>
 
-    <h1>Daftar Pengguna</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nama</th>
-                <th>NPM</th>
-                <th>Kelas</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach ($users as $user)
-                <tr>
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->nama }}</td>
-                    <td>{{ $user->npm }}</td>
-                    <td>{{ $user->nama_kelas }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-
+    <x-user_table :users="$users" />
 @endsection
