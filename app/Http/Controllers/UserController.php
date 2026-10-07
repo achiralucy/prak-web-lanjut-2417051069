@@ -40,6 +40,7 @@ class UserController extends Controller
 
         return view('create_user', $data);
     }
+
     public function index()
     {
         $data = [
@@ -48,5 +49,57 @@ class UserController extends Controller
         ];
 
         return view('list_user', $data);
+    }
+
+    public function edit($id)
+    {
+        $user = $this->userModel->find($id);
+
+        if (!$user) {
+            return redirect()->route('user.index')
+                ->with('error', 'Data mahasiswa tidak ditemukan.');
+        }
+
+        $kelas = $this->kelasModel->getKelas();
+
+        return view('edit_user', [
+            'title' => 'Edit User',
+            'user' => $user,
+            'kelas' => $kelas,
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user = $this->userModel->find($id);
+
+        if (!$user) {
+            return redirect()->route('user.index')
+                ->with('error', 'Data mahasiswa tidak ditemukan.');
+        }
+
+        $user->update([
+            'nama' => $request->input('nama'),
+            'npm' => $request->input('npm'),
+            'kelas_id' => $request->input('kelas_id'),
+        ]);
+
+        return redirect()->route('user.index')
+            ->with('success', 'Data mahasiswa berhasil diperbarui.');
+    }
+
+    public function destroy($id)
+    {
+        $user = $this->userModel->find($id);
+
+        if (!$user) {
+            return redirect()->route('user.index')
+                ->with('error', 'Data mahasiswa tidak ditemukan.');
+        }
+
+        $user->delete();
+
+        return redirect()->route('user.index')
+            ->with('success', 'Data mahasiswa berhasil dihapus.');
     }
 }
